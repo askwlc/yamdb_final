@@ -8,7 +8,7 @@ services:
     env_file:
       - .env
   web:
-    build: ../api_yamdb/
+    image: askwlc/yamdb_final:latest
     restart: always
     volumes:
       - static_value:/app/static/
@@ -17,6 +17,7 @@ services:
       - db
     env_file:
       - ./.env
+
   nginx:
     image: nginx:1.21.3-alpine
     ports:

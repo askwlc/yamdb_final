@@ -3,43 +3,47 @@ name: Django-app workflow
 on: [push]
 
 jobs:
-#  tests:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#    - name: Checkout repository
-#      uses: actions/checkout@v2
-#
-#    - name: Set up Node.js
-#      uses: actions/setup-node@v2
-#      with:
-#        node-version: 16
-#
-#    - name: Set up Python
-#      uses: actions/setup-python@v2
-#      with:
-#        python-version: 3.7
-#
-#    - name: Install dependencies
-#      run: |
-#        cd api_yamdb/
-#        python -m pip install --upgrade pip
-#        pip install flake8 pep8-naming flake8-broken-line flake8-return flake8-isort
-#        pip install pytest
-#        pip install -r requirements.txt
-#
-#    - name: Test with flake8 and django tests
-#      run: |
-#        cd api_yamdb/
-#        python -m flake8
-#        cd ..
-#        pytest tests/
-    
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+
+    - name: Install dependencies
+      run: | 
+        cd api_yamdb/
+        python -m pip install --upgrade pip 
+        pip install flake8 pep8-naming flake8-broken-line flake8-return flake8-isort
+        pip install pytest
+        pip install -r requirements.txt 
+
+    - name: Run flake8 and django tests
+      run: |
+          cd api_yamdb/
+#          python -m flake8
+
+    - name: Run pytest tests
+      run: |
+        cd tests/
+#        pytest
+
 
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     needs: tests
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
